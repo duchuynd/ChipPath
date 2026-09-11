@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ChipPath — Digital Talent Pipeline & Verified Talent Passport</title>
+  
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            navy: {
+              700: '#1E3E62',
+              800: '#142a4a',
+              900: '#0B192C',
+              950: '#060e1a',
+            },
+            crimson: {
+              600: '#E11D48',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="bg-semiconductor-grid min-h-screen flex flex-col text-slate-900 antialiased selection:bg-blue-600 selection:text-white">
+
+  <!-- ==========================================================
+       TOP PRESENTATION TOOLBAR (FOR CLASS PRESENTATION & DEMO)
+  ========================================================== -->
+  <header class="no-print bg-slate-950/95 border-b border-slate-800 text-white sticky top-0 z-50 backdrop-blur-md">
+    <div class="max-w-7xl mx-auto px-3 sm:px-4 py-2.5 flex flex-col md:flex-row items-center justify-between gap-3">
+      
+      <!-- Brand & Project Title -->
+      <div class="flex items-center space-x-3">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-blue-600 to-cyan-500 flex items-center justify-center font-black text-white text-base shadow-lg shadow-blue-500/30 ring-1 ring-white/20">
+          CP
+        </div>
+        <div>
+          <div class="flex items-center space-x-2">
+            <h1 class="font-black text-sm tracking-tight text-white">ChipPath</h1>
+            <span class="text-[10px] bg-blue-500/20 text-cyan-300 font-mono px-1.5 py-0.5 rounded border border-blue-400/30">Semiconductor Pipeline</span>
+          </div>
+          <p class="text-[11px] text-slate-400">Digital Talent Pipeline & Verified Talent Passport (Presentation Prototype)</p>
+        </div>
+      </div>
+
+      <!-- Strategic 7-Stage Pipeline Visualizer -->
+      <div class="hidden xl:flex items-center space-x-1 text-xs">
+        <span class="text-[10px] uppercase font-bold text-slate-400 mr-1 flex items-center">
+          <i data-lucide="git-branch" class="w-3.5 h-3.5 mr-1 text-blue-400"></i> Value Chain:
+        </span>
+        <div class="flex items-center bg-slate-900/90 p-1 rounded-xl border border-slate-800">
+          <button data-flow-step="discover" class="px-2 py-1 rounded-lg text-[11px] font-medium bg-blue-600 text-white transition">1. Discover</button>
+          <span class="text-slate-600 px-1">→</span>
+          <button data-flow-step="experience" class="px-2 py-1 rounded-lg text-[11px] font-medium text-slate-300 hover:text-white transition">2. Industry Exposure</button>
+          <span class="text-slate-600 px-1">→</span>
+          <button data-flow-step="challenge" class="px-2 py-1 rounded-lg text-[11px] font-medium text-slate-300 hover:text-white transition">3. STEM Challenge</button>
+          <span class="text-slate-600 px-1">→</span>
+          <button data-flow-step="verify" class="px-2 py-1 rounded-lg text-[11px] font-medium text-slate-300 hover:text-white transition">4. Verified Evidence</button>
+          <span class="text-slate-600 px-1">→</span>
+          <button data-flow-step="passport" class="px-2 py-1 rounded-lg text-[11px] font-medium text-slate-300 hover:text-white transition font-bold text-cyan-300">5. Talent Passport</button>
+          <span class="text-slate-600 px-1">→</span>
+          <button data-flow-step="early-talent" class="px-2 py-1 rounded-lg text-[11px] font-medium text-slate-300 hover:text-white transition">6. Early Talent Pool</button>
+          <span class="text-slate-600 px-1">→</span>
+          <button data-flow-step="stage2" class="px-2 py-1 rounded-lg text-[11px] font-bold text-emerald-400 hover:text-emerald-300 transition">7. Stage 2 Handover</button>
+        </div>
+      </div>
+
+      <!-- Presenter & Testing Controls -->
+      <div class="flex items-center space-x-2 flex-wrap justify-center">
+        <!-- Live Student Customizer -->
+        <button onclick="App.openCustomizeStudentModal()" class="px-2.5 py-1.5 bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold rounded-xl flex items-center space-x-1.5 shadow transition">
+          <i data-lucide="user-check" class="w-3.5 h-3.5"></i>
+          <span>Custom Profile</span>
+        </button>
+
+        <!-- Speaker Notes Drawer Toggle -->
+        <button id="btn-toggle-speaker-notes" onclick="App.toggleSpeakerNotes()" class="px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-amber-300 text-xs font-semibold rounded-xl border border-slate-700 flex items-center space-x-1.5 transition">
+          <i data-lucide="mic" class="w-3.5 h-3.5 text-amber-400"></i>
+          <span>Presenter Notes</span>
+        </button>
+
+        <!-- Audience Feedback -->
+        <button onclick="App.openFeedbackModal()" class="px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold rounded-xl border border-slate-700 flex items-center space-x-1.5 transition">
+          <i data-lucide="message-square" class="w-3.5 h-3.5 text-cyan-400"></i>
+          <span>Audience Feedback</span>
+        </button>
+
+        <!-- View Mode Switch -->
+        <button id="toggle-view-mode" class="px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold rounded-xl border border-slate-700 flex items-center space-x-1.5 transition">
+          <i data-lucide="monitor" class="w-3.5 h-3.5 text-blue-400"></i>
+          <span id="toggle-view-text">Desktop View</span>
+        </button>
+
+        <!-- Print Dossier -->
+        <button onclick="window.print()" class="px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold rounded-xl border border-slate-700 flex items-center space-x-1.5 transition" title="Print / Export Dossier PDF">
+          <i data-lucide="printer" class="w-3.5 h-3.5 text-emerald-400"></i>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ==========================================================
+       PRESENTER SPEAKER NOTES DRAWER (INTERACTIVE PITCH HELPER)
+  ========================================================== -->
+  <div id="speaker-notes-drawer" class="no-print bg-slate-900 border-b border-amber-500/40 p-4 text-slate-100 hidden">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start gap-4">
+      <div class="flex-1">
+        <div class="flex items-center space-x-2 mb-1.5">
+          <span class="px-2 py-0.5 rounded bg-amber-500 text-slate-950 font-black text-[10px] uppercase">Presenter Pitch Guide</span>
+          <h3 id="speaker-note-title" class="font-bold text-sm text-white">Screen 1: Home — Talent Journey Dashboard</h3>
+        </div>
+        <p id="speaker-note-hook" class="text-xs text-amber-200/90 font-medium mb-2.5 italic">
+          "Problem solved: High school students lack a structured, verified pathway to explore semiconductor careers without losing their achievements upon entering university."
+        </p>
+        <ul id="speaker-note-list" class="space-y-1.5"></ul>
+      </div>
+
+      <div class="bg-slate-950/80 p-3 rounded-2xl border border-slate-800 text-xs flex-shrink-0 w-full md:w-72">
+        <span class="text-[10px] uppercase font-bold text-slate-400 block mb-1">Live Presentation Tip:</span>
+        <p class="text-[11px] text-slate-300 leading-relaxed mb-2">
+          Invite a classmate or judge to enter their name using the <strong>Custom Profile</strong> button, complete the Smart Factory simulation, and generate an auditable Talent Passport under their name!
+        </p>
+        <button onclick="App.toggleSpeakerNotes()" class="w-full py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-semibold">
+          Collapse Pitch Guide
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================
+       MAIN APP CONTAINER (DUAL-MODE: MOBILE / DESKTOP)
+  ========================================================== -->
+  <main class="flex-1 flex items-center justify-center p-2 sm:p-6 lg:p-8">
+    <div id="app-viewport" class="mobile-device-shell transition-all duration-300">
+      
+      <div class="mobile-inner-screen bg-slate-50 flex flex-col">
+        
+        <!-- Mobile Phone Status Bar & Notch -->
+        <div class="phone-statusbar px-6 pt-3 pb-1 flex justify-between items-center text-[11px] font-semibold text-slate-800 bg-white border-b border-slate-100 flex-shrink-0">
+          <span>09:41</span>
+          <div class="phone-notch w-24 h-4 bg-slate-900 rounded-full mx-auto"></div>
+          <div class="flex items-center space-x-1.5 text-slate-700">
+            <i data-lucide="signal" class="w-3 h-3"></i>
+            <i data-lucide="wifi" class="w-3 h-3"></i>
+            <i data-lucide="battery-charging" class="w-3.5 h-3.5"></i>
+          </div>
+        </div>
+
+        <!-- App Header Bar -->
+        <div class="glass-header px-4 py-2.5 border-b border-slate-200/80 flex items-center justify-between flex-shrink-0">
+          <div class="flex items-center space-x-2">
+            <div class="w-7 h-7 rounded-lg bg-navy-900 text-white flex items-center justify-center font-bold text-xs shadow-sm">
+              CP
+            </div>
+            <div>
+              <span class="text-xs font-extrabold text-slate-900 tracking-tight block leading-none">ChipPath</span>
+              <span class="text-[9px] font-semibold text-blue-600 tracking-wider uppercase">Talent Pipeline</span>
+            </div>
+          </div>
+
+          <div class="flex items-center space-x-2">
+            <button onclick="App.openQrVerificationModal()" class="p-1.5 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 transition" title="Look up Cryptographic Verification Hash">
+              <i data-lucide="qr-code" class="w-4 h-4 text-slate-700"></i>
+            </button>
+            <div onclick="App.openCustomizeStudentModal()" class="cursor-pointer flex items-center space-x-1.5 bg-blue-50 hover:bg-blue-100 py-1 px-2 rounded-xl border border-blue-200 transition">
+              <div id="header-student-avatar" class="w-5 h-5 rounded-full bg-blue-600 text-white flex items-center justify-center text-[10px] font-black">
+                AN
+              </div>
+              <span id="header-student-name" class="text-[11px] font-bold text-blue-950 max-w-[120px] truncate">Anonymous</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- ==========================================================
+             SCROLLABLE VIEWPORT FOR SCREENS
+        ========================================================== -->
+        <div id="main-scroll-container" class="flex-1 overflow-y-auto p-4 no-scrollbar">
+
+          <!-- SCREEN 1: HOME (TALENT JOURNEY DASHBOARD) -->
+          <div id="screen-home" class="screen-content">
+            <div id="home-dynamic-content"></div>
+          </div>
+
+          <!-- SCREEN 2: EXPLORE (DISCOVER THE INDUSTRY) -->
+          <div id="screen-explore" class="screen-content hidden">
+            <div id="explore-dynamic-content"></div>
+          </div>
+
+          <!-- SCREEN 3: CHALLENGES (PROVE YOUR POTENTIAL) -->
+          <div id="screen-challenges" class="screen-content hidden">
+            <div id="challenges-dynamic-content"></div>
+          </div>
+
+          <!-- SCREEN 4: CHALLENGE RESULT (VERIFIED EVIDENCE) -->
+          <div id="screen-challenge-result" class="screen-content hidden">
+            <div id="challenge-result-dynamic-content"></div>
+          </div>
+
+          <!-- SCREEN 5: TALENT PASSPORT (FLAGSHIP SCREEN) -->
+          <div id="screen-passport" class="screen-content hidden">
+            <div id="passport-dynamic-content"></div>
+          </div>
+
+          <!-- SCREEN 6: OPPORTUNITIES (STAY CONNECTED) -->
+          <div id="screen-opportunities" class="screen-content hidden">
+            <div id="opportunities-dynamic-content"></div>
+          </div>
+
+        </div>
+
+        <!-- ==========================================================
+             BOTTOM NAVIGATION BAR (5 CORE SECTIONS)
+        ========================================================== -->
+        <nav class="no-print glass-header border-t border-slate-200 px-2 py-1.5 flex justify-around items-center flex-shrink-0 z-20">
+          
+          <!-- Home -->
+          <button data-nav-target="home" class="flex flex-col items-center justify-center py-1 px-2 rounded-xl text-blue-600 transition group">
+            <div class="nav-icon-wrapper p-1 rounded-lg bg-blue-50 text-blue-600 transition">
+              <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
+            </div>
+            <span class="nav-label text-[10px] mt-0.5 font-bold">Home</span>
+          </button>
+
+          <!-- Explore -->
+          <button data-nav-target="explore" class="flex flex-col items-center justify-center py-1 px-2 rounded-xl text-slate-400 hover:text-slate-700 transition group">
+            <div class="nav-icon-wrapper p-1 rounded-lg text-slate-500 transition">
+              <i data-lucide="compass" class="w-4 h-4"></i>
+            </div>
+            <span class="nav-label text-[10px] mt-0.5 font-medium">Explore</span>
+          </button>
+
+          <!-- Challenges -->
+          <button data-nav-target="challenges" class="flex flex-col items-center justify-center py-1 px-2 rounded-xl text-slate-400 hover:text-slate-700 transition group">
+            <div class="nav-icon-wrapper p-1 rounded-lg text-slate-500 transition">
+              <i data-lucide="cpu" class="w-4 h-4"></i>
+            </div>
+            <span class="nav-label text-[10px] mt-0.5 font-medium">Challenges</span>
+          </button>
+
+          <!-- Passport (Flagship Highlight) -->
+          <button data-nav-target="passport" class="flex flex-col items-center justify-center py-1 px-2 rounded-xl text-slate-400 hover:text-slate-700 transition group">
+            <div class="nav-icon-wrapper p-1 rounded-lg text-slate-500 transition">
+              <i data-lucide="shield-check" class="w-4 h-4"></i>
+            </div>
+            <span class="nav-label text-[10px] mt-0.5 font-medium">Passport</span>
+          </button>
+
+          <!-- Opportunities -->
+          <button data-nav-target="opportunities" class="flex flex-col items-center justify-center py-1 px-2 rounded-xl text-slate-400 hover:text-slate-700 transition group">
+            <div class="nav-icon-wrapper p-1 rounded-lg text-slate-500 transition">
+              <i data-lucide="briefcase" class="w-4 h-4"></i>
+            </div>
+            <span class="nav-label text-[10px] mt-0.5 font-medium">Opportunities</span>
+          </button>
+
+        </nav>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- ==========================================================
+       MODAL 1: VIRTUAL CLEANROOM TOUR (INTERACTIVE STEPPER)
+  ========================================================== -->
+  <div id="modal-virtual-tour" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-slate-900 text-white border border-slate-700 rounded-3xl max-w-lg w-full p-5 shadow-2xl relative overflow-hidden">
+      
+      <div class="flex justify-between items-start mb-3">
+        <div>
+          <span class="text-[10px] font-mono text-cyan-400 uppercase tracking-widest block">Virtual Semiconductor Cleanroom Tour</span>
+          <h3 id="tour-step-title" class="text-base font-bold text-white mt-0.5">1. Cleanroom Protocol & Air Shower Chamber</h3>
+        </div>
+        <button onclick="App.closeVirtualTourModal()" class="p-1 rounded-full text-slate-400 hover:text-white bg-slate-800">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <!-- Cleanroom Stage Visual Box -->
+      <div class="bg-slate-950 rounded-2xl p-4 border border-slate-800 my-3">
+        <div class="flex justify-between items-center text-xs mb-2">
+          <span id="tour-step-iso" class="font-mono text-emerald-400 text-[11px] font-bold">ISO Class 1 (&lt;10 particles/m³)</span>
+          <span id="tour-step-counter" class="text-slate-400 text-[11px] font-mono">Stage 1 / 5</span>
+        </div>
+
+        <p id="tour-step-desc" class="text-xs text-slate-300 leading-relaxed mb-3">
+          Automated decontamination before entering the ultra-pure cleanroom. High-velocity HEPA airflow removes sub-micron particulates to shield bare silicon wafers from nano-defects.
+        </p>
+
+        <div class="grid grid-cols-2 gap-2 text-[11px] font-mono">
+          <div class="bg-slate-900 p-2 rounded-lg border border-slate-800">
+            <span class="text-[9px] text-slate-400 block uppercase">Technical Focus</span>
+            <span id="tour-step-focus" class="text-blue-400 font-bold">Yield Protection & Defect Control</span>
+          </div>
+          <div class="bg-slate-900 p-2 rounded-lg border border-slate-800">
+            <span class="text-[9px] text-slate-400 block uppercase">Standard Benchmark</span>
+            <span id="tour-step-metric" class="text-cyan-400 font-bold">99.999% Filtration</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Progress Indicators -->
+      <div id="tour-progress-dots" class="flex justify-center items-center space-x-1.5 my-3"></div>
+
+      <!-- Stepper Controls -->
+      <div class="flex justify-between items-center pt-2">
+        <button onclick="App.prevTourStep()" class="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold rounded-xl transition">
+          Back
+        </button>
+        <button onclick="App.nextTourStep()" class="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold rounded-xl flex items-center space-x-1.5 shadow transition">
+          <span id="tour-next-btn-text">Next Stage</span>
+          <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ==========================================================
+       MODAL 2: CRYPTOGRAPHIC QR & REGISTRY VERIFICATION
+  ========================================================== -->
+  <div id="modal-qr-verification" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-3xl max-w-sm w-full p-5 shadow-2xl border border-slate-200 text-center relative">
+      
+      <button onclick="App.closeQrVerificationModal()" class="absolute right-4 top-4 p-1 rounded-full text-slate-400 hover:text-slate-700 bg-slate-100">
+        <i data-lucide="x" class="w-4 h-4"></i>
+      </button>
+
+      <div class="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center mx-auto mb-3">
+        <i data-lucide="shield-check" class="w-7 h-7"></i>
+      </div>
+
+      <h3 class="text-sm font-black text-slate-900">ChipPath Verified Talent Passport</h3>
+      <p class="text-xs text-slate-500 mb-4">Cryptographic Transparency & Audit Portal</p>
+
+      <!-- Mock QR Code SVG -->
+      <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 inline-block mb-3">
+        <svg class="w-36 h-36 mx-auto text-slate-900" viewBox="0 0 100 100" fill="currentColor">
+          <rect x="0" y="0" width="30" height="30" fill="#0B192C"/>
+          <rect x="5" y="5" width="20" height="20" fill="#FFFFFF"/>
+          <rect x="10" y="10" width="10" height="10" fill="#0B192C"/>
+          <rect x="70" y="0" width="30" height="30" fill="#0B192C"/>
+          <rect x="75" y="5" width="20" height="20" fill="#FFFFFF"/>
+          <rect x="80" y="10" width="10" height="10" fill="#0B192C"/>
+          <rect x="0" y="70" width="30" height="30" fill="#0B192C"/>
+          <rect x="5" y="75" width="20" height="20" fill="#FFFFFF"/>
+          <rect x="10" y="80" width="10" height="10" fill="#0B192C"/>
+          <rect x="40" y="10" width="10" height="10" fill="#0B192C"/>
+          <rect x="40" y="30" width="20" height="10" fill="#0B192C"/>
+          <rect x="10" y="40" width="20" height="10" fill="#0B192C"/>
+          <rect x="40" y="50" width="10" height="20" fill="#0B192C"/>
+          <rect x="60" y="50" width="15" height="15" fill="#0B192C"/>
+          <rect x="80" y="40" width="10" height="20" fill="#0B192C"/>
+          <rect x="40" y="80" width="30" height="10" fill="#0B192C"/>
+          <rect x="80" y="70" width="10" height="20" fill="#0B192C"/>
+        </svg>
+      </div>
+
+      <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 text-left text-[11px] font-mono mb-4 space-y-1">
+        <div class="flex justify-between">
+          <span class="text-slate-400">Student ID:</span>
+          <span class="font-bold text-slate-800">CP-2026-88942</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-slate-400">Cryptographic Signature:</span>
+          <span class="text-blue-600 font-bold truncate ml-2">0x8F92A4...C71B</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-slate-400">Stage 2 Handover:</span>
+          <span class="text-emerald-600 font-bold">Consortium Fast-Track Ready</span>
+        </div>
+      </div>
+
+      <button onclick="App.closeQrVerificationModal()" class="w-full py-2.5 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs font-bold transition">
+        Close Portal
+      </button>
+    </div>
+  </div>
+
+  <!-- ==========================================================
+       MODAL 3: CUSTOMIZE STUDENT PROFILE (FOR PEER TESTING)
+  ========================================================== -->
+  <div id="modal-customize-student" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-3xl max-w-md w-full p-5 shadow-2xl border border-slate-200 relative">
+      <button onclick="App.closeCustomizeStudentModal()" class="absolute right-4 top-4 p-1 rounded-full text-slate-400 hover:text-slate-700 bg-slate-100">
+        <i data-lucide="x" class="w-4 h-4"></i>
+      </button>
+
+      <div class="w-10 h-10 rounded-2xl bg-blue-100 text-blue-700 flex items-center justify-center mb-3">
+        <i data-lucide="user-edit" class="w-5 h-5"></i>
+      </div>
+
+      <h3 class="text-base font-bold text-slate-900">Set Up Your Testing Profile</h3>
+      <p class="text-xs text-slate-500 mb-4">Enter your name to generate your personalized Talent Passport, aptitude scores, and verified credentials!</p>
+
+      <form onsubmit="App.saveCustomStudent(event)" class="space-y-3 text-xs">
+        <div>
+          <label class="block text-slate-700 font-semibold mb-1">Your Full Name:</label>
+          <input type="text" id="cust-student-name" class="w-full px-3 py-2 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-600 outline-none text-xs font-semibold">
+        </div>
+
+        <div>
+          <label class="block text-slate-700 font-semibold mb-1">School / Grade:</label>
+          <input type="text" id="cust-student-grade" class="w-full px-3 py-2 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-600 outline-none text-xs">
+        </div>
+
+        <div>
+          <label class="block text-slate-700 font-semibold mb-1">Target Specialization:</label>
+          <select id="cust-student-track" class="w-full px-3 py-2 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-600 outline-none text-xs">
+            <option value="Semiconductor & Microelectronics Engineering">Semiconductor & Microelectronics Engineering</option>
+            <option value="Digital IC Design & RTL Synthesis">Digital IC Design & RTL Synthesis</option>
+            <option value="Fab Cleanroom Process Engineering">Fab Cleanroom Process Engineering</option>
+            <option value="Advanced Packaging & 3D Chiplet Test">Advanced Packaging & 3D Chiplet Test</option>
+          </select>
+        </div>
+
+        <div class="pt-2">
+          <button type="submit" class="w-full py-2.5 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-xs font-bold shadow transition">
+            Apply & Begin Immersion
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==========================================================
+       MODAL 4: CLASSROOM AUDIENCE FEEDBACK & RATING
+  ========================================================== -->
+  <div id="modal-feedback-form" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-3xl max-w-md w-full p-5 shadow-2xl border border-slate-200 relative max-h-[90vh] overflow-y-auto no-scrollbar">
+      <button onclick="App.closeFeedbackModal()" class="absolute right-4 top-4 p-1 rounded-full text-slate-400 hover:text-slate-700 bg-slate-100">
+        <i data-lucide="x" class="w-4 h-4"></i>
+      </button>
+
+      <div class="w-10 h-10 rounded-2xl bg-cyan-100 text-cyan-700 flex items-center justify-center mb-2">
+        <i data-lucide="message-square" class="w-5 h-5"></i>
+      </div>
+
+      <h3 class="text-base font-bold text-slate-900">Presentation Feedback & Review</h3>
+      <p class="text-xs text-slate-500 mb-3">Classmates and reviewers can submit live feedback and ratings here!</p>
+
+      <form onsubmit="App.submitFeedbackForm(event)" class="space-y-2.5 text-xs">
+        <div>
+          <label class="block text-slate-700 font-semibold mb-1">Your Name (Optional):</label>
+          <input type="text" id="feedback-author-name" placeholder="e.g., Marcus Chen (Peer Reviewer)" class="w-full px-3 py-1.5 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-600 outline-none text-xs">
+        </div>
+
+        <div>
+          <label class="block text-slate-700 font-semibold mb-1">Prototype Rating (Stars):</label>
+          <select id="feedback-rating" class="w-full px-3 py-1.5 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-600 outline-none text-xs font-semibold text-amber-600">
+            <option value="5">★★★★★ (5/5 Outstanding)</option>
+            <option value="4">★★★★☆ (4/5 Very Good)</option>
+            <option value="3">★★★☆☆ (3/5 Good)</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-slate-700 font-semibold mb-1">Most Impressive Feature:</label>
+          <select id="feedback-favorite-feature" class="w-full px-3 py-1.5 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-600 outline-none text-xs">
+            <option value="Talent Passport & QR Token">Talent Passport & QR Token</option>
+            <option value="Smart Factory Physics Simulator">Smart Factory Physics Simulator</option>
+            <option value="5-Step Virtual Cleanroom Tour">5-Step Virtual Cleanroom Tour</option>
+            <option value="Light-Touch Re-Engagement Model">Light-Touch Re-Engagement Model</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-slate-700 font-semibold mb-1">Comments & Constructive Feedback:</label>
+          <textarea id="feedback-comment" rows="2" placeholder="Share your thoughts on the presentation and prototype..." class="w-full px-3 py-1.5 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-600 outline-none text-xs"></textarea>
+        </div>
+
+        <button type="submit" class="w-full py-2.5 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-xs font-bold shadow transition">
+          Submit Feedback
+        </button>
+      </form>
+
+      <!-- Live Classroom Feedbacks List -->
+      <div class="mt-4 pt-4 border-t border-slate-200">
+        <h4 class="text-xs font-bold text-slate-800 uppercase tracking-wider mb-2 flex items-center">
+          <i data-lucide="users" class="w-3.5 h-3.5 mr-1 text-blue-600"></i> Classroom Reviews & Feedback:
+        </h4>
+        <div id="class-feedbacks-container" class="space-y-2 max-h-48 overflow-y-auto no-scrollbar"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/simulator.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,219 @@
+/* ChipPath - Digital Talent Pipeline & Verified Talent Passport Styles */
+
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+:root {
+  --navy-950: #060e1a;
+  --navy-900: #0B192C;
+  --navy-800: #142a4a;
+  --navy-700: #1E3E62;
+  --tech-blue: #2563EB;
+  --tech-blue-light: #3B82F6;
+  --tech-cyan: #06B6D4;
+  --accent-red: #DC2626;
+  --accent-crimson: #E11D48;
+  --accent-emerald: #059669;
+  --bg-slate-light: #F8FAFC;
+  --card-border: #E2E8F0;
+  --text-main: #0F172A;
+  --text-muted: #64748B;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: #0A111E;
+  color: var(--text-main);
+  -webkit-font-smoothing: antialiased;
+}
+
+.font-mono {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* Semiconductor Silicon Grid Pattern */
+.bg-semiconductor-grid {
+  background-color: #08101E;
+  background-image: 
+    radial-gradient(rgba(37, 99, 235, 0.15) 1px, transparent 0),
+    linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 24px 24px, 48px 48px, 48px 48px;
+}
+
+.bg-chip-pattern {
+  background-color: #F8FAFC;
+  background-image: radial-gradient(#E2E8F0 1px, transparent 1px);
+  background-size: 16px 16px;
+}
+
+/* Mobile Frame Wrapper */
+.mobile-device-shell {
+  width: 410px;
+  max-width: 100%;
+  height: 860px;
+  background: #000000;
+  border-radius: 46px;
+  padding: 12px;
+  box-shadow: 
+    0 0 0 2px #334155,
+    0 25px 60px -15px rgba(0, 0, 0, 0.7),
+    0 0 40px rgba(37, 99, 235, 0.25);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.mobile-inner-screen {
+  background: #F8FAFC;
+  border-radius: 36px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+}
+
+/* When in Desktop Full-Width Mode */
+.desktop-view-active .mobile-device-shell {
+  width: 100% !important;
+  max-width: 1280px !important;
+  height: auto !important;
+  min-height: 90vh;
+  border-radius: 20px;
+  padding: 0;
+  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.4);
+}
+
+.desktop-view-active .mobile-inner-screen {
+  border-radius: 20px;
+  min-height: 85vh;
+}
+
+.desktop-view-active .phone-notch {
+  display: none !important;
+}
+
+.desktop-view-active .phone-statusbar {
+  display: none !important;
+}
+
+/* Hide scrollbar for clean app experience */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Verified Seal Badge */
+.verified-seal {
+  background: linear-gradient(135deg, #0B192C 0%, #1E3E62 100%);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  box-shadow: 0 4px 12px rgba(11, 25, 44, 0.2);
+}
+
+.verified-gold-seal {
+  background: linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%);
+  border: 1px solid #F59E0B;
+}
+
+/* Strategic Pipeline Step Animation */
+.pipeline-step-active {
+  background: #2563EB;
+  color: #FFFFFF;
+  box-shadow: 0 0 15px rgba(37, 99, 235, 0.5);
+}
+
+.pipeline-step-completed {
+  background: #0B192C;
+  color: #FFFFFF;
+  border-color: #059669;
+}
+
+/* Interactive Sliders */
+input[type=range] {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 6px;
+  background: #E2E8F0;
+  border-radius: 4px;
+  outline: none;
+}
+
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #2563EB;
+  cursor: pointer;
+  border: 2px solid #FFFFFF;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  transition: transform 0.1s ease;
+}
+
+input[type=range]::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+}
+
+/* Glassmorphism details */
+.glass-header {
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.glass-dark {
+  background: rgba(11, 25, 44, 0.9);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* Wafer Canvas / SVG Glow */
+.wafer-glow {
+  filter: drop-shadow(0 0 12px rgba(37, 99, 235, 0.35));
+}
+
+/* Animation Pulses */
+@keyframes chip-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.animate-chip-pulse {
+  animation: chip-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Print / Export Styles for Verified Talent Dossier */
+@media print {
+  body {
+    background: #FFFFFF !important;
+    color: #000000 !important;
+  }
+  .no-print {
+    display: none !important;
+  }
+  .print-only {
+    display: block !important;
+  }
+  .mobile-device-shell {
+    box-shadow: none !important;
+    border: none !important;
+    width: 100% !important;
+    height: auto !important;
+    padding: 0 !important;
+    background: transparent !important;
+  }
+  .mobile-inner-screen {
+    border-radius: 0 !important;
+    background: #FFFFFF !important;
+  }
+}
